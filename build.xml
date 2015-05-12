@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<project default="dist" name="customer Cluster ant jar" basedir=".">
+    <!--this file was created by Eclipse Runnable JAR Export Wizard-->
+
+	<property name="src" value="src"/>
+	<property name="build" value="build"/>
+	<property name="dist" value="dist"/>
+	<property name="lib" value="lib"/>
+	<property name="conf" value="conf"/>
+
+	<target name="init">
+		<delete dir="${build}"/>
+		<delete dir="${dist}" />
+		<mkdir dir="${build}"/>
+		<mkdir dir="${dist}"/>
+	</target>
+
+	<target name="compile" depends="init">
+	<!-- Compile the java code from ${src} into ${build} -->
+		<javac srcdir="${src}" destdir="${build}" encoding="UTF-8">
+		<classpath>
+		<fileset dir="lib">
+		<include name="*.jar"/> </fileset>
+		</classpath>
+		</javac>
+	</target>
+
+    <target name="dist" depends="compile">
+        <jar destfile="${dist}/alg.jar">
+            <manifest>
+                <attribute name="Main-Class" value="com.ruijie.rbis.main.AlgRun"/>
+                <attribute name="Class-Path" value=". conf/
+                	lib/log4j-api-2.1.jar
+                	lib/log4j-core-2.1.jar
+                	lib/commons-dbcp-1.4.jar
+					lib/commons-logging-1.1.1.jar
+					lib/commons-logging-api-1.0.4.jar
+					lib/commons-pool-1.5.4.jar
+					lib/Jama-1.0.3.jar
+					lib/mysql-connector-java-5.1.17.jar
+					lib/spring-beans-3.2.4.RELEASE.jar
+					lib/spring-context-3.2.4.RELEASE.jar
+					lib/spring-context-support-3.2.4.RELEASE.jar
+					lib/spring-core-3.2.4.RELEASE.jar
+					lib/spring-expression-3.2.4.RELEASE.jar
+					lib/spring-jdbc-3.2.4.RELEASE.jar
+					lib/spring-tx-3.2.4.RELEASE.jar"/>
+            </manifest>
+            <fileset dir="${build}"/>
+        </jar>
+<!--		<copy todir="${dist}" file="run.bat"/>
+		<copy todir="${dist}" file="run.sh"/>
+		<copy todir="${dist}" file="readme.txt"/>-->
+		<mkdir dir="${dist}\lib"/>
+		<copy todir="${dist}\lib">
+           <fileset dir="${lib}">
+             <include name="*.jar" />
+           </fileset>
+       </copy>
+		<mkdir dir="${dist}\conf"/>
+	   	<copy todir="${dist}\conf">
+           <fileset dir="${conf}">
+             <include name="*" />
+           </fileset>
+       </copy>
+		<mkdir dir="${dist}\logs"/>
+    </target>
+
+</project>

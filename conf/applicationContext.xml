@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+       <!-- 数据源配置-->
+       <bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
+              <property name="driverClassName">
+                     <value>com.mysql.jdbc.Driver</value>
+              </property>
+               <property name="url">
+                     <value>jdbc:mysql://172.18.136.231:3306/RBIS_XMZHC_DEMO?autoReconnect=true&amp;autoReconnectForPools=true</value>
+                      <!--<value>jdbc:mysql://172.18.11.223:3306/PCA_V2?autoReconnect=true&amp;autoReconnectForPools=true</value>-->
+              </property>
+              <property name="username">
+                     <value>mysql</value>
+              </property>
+              <property name="password">
+                     <value>mysql</value>
+              </property>
+              <property name="timeBetweenEvictionRunsMillis">
+                     <value>3600000</value>
+              </property>
+              <property name="testWhileIdle">
+                     <value>true</value>
+              </property>
+              <property name="validationQuery">
+                     <value>select 1 from dual</value>
+              </property>
+       </bean>
+
+       <bean id="jdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate">
+              <property name="dataSource" ref="dataSource"/>
+       </bean>
+
+       <!-- Dao初始化 -->
+       <!--主成分算法-->
+       <bean id="pcaDao" class="com.ruijie.rbis.dao.PcaDao">
+              <property name="jdbcTemplate" ref="jdbcTemplate"/>
+              <property name="historyDateLine" value="35"/>
+       </bean>
+       <!--多元回归-->
+       <bean id="mlrDao" class="com.ruijie.rbis.dao.MlrDao">
+              <property name="jdbcTemplate" ref="jdbcTemplate"/>
+              <property name="historyDateLine" value="35"/>
+       </bean>
+       <!--顾客kmeans模型-->
+       <bean id="kmeansDao" class="com.ruijie.rbis.dao.KmeansDao">
+              <property name="jdbcTemplate" ref="jdbcTemplate"/>
+              <property name="numCluster" value="3"/>
+       </bean>
+
+</beans>
